@@ -1,12 +1,33 @@
+sudo: required
+
 language: python
-python:
- - "2.7"
- - "3.7-dev"  # 3.7 development branch
+
+branches:
+  only:
+    - master
+
+matrix:
+  include:
+    - python: 2.7
+      env: docker_image=2.7.14-alpine3.7
+
+    - python: 3.7-dev # 3.7 development branch
+      env: docker_image=3.7-rc-alpine
+
+services:
+  - docker
+
 install:
  - pip install --upgrade pip #[他預先的 pip 版本不是最新的，所以先更新一下]
  - pip install pyflakes #檢查多餘的 import
  - pip install pylint #檢查 Coding style
+
 before_script:
  - pyflakes .
- - pylint sample.py
-script: python test_sample.py
+ - pylint sample.py --disable=missing-docstring
+
+script: python test_sample.py #[跑unit test]
+
+after_success:
+ - echo $docker_image
+
