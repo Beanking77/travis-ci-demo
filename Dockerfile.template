@@ -6,6 +6,6 @@ MAINTAINER Bean Shih <beanking77@gmail.com>
 RUN mkdir -p /build/
 
 ## Add script file 
-COPY sample.py /build/
+COPY . /build/
 
 CMD bash

@@ -17,21 +17,28 @@ matrix: # parallel verify different python version
 services: # use docker for artifact
   - docker
 
+# Prepare build and test environment
 install:
+ #- pip install -r /path/to/requirements.txt # install packages from file
  - pip install --upgrade pip # update pip version if not latest
  - pip install pyflakes 
  - pip install pylint 
 
+# Check static code before unit test
 before_script:
  - pyflakes . # static code analyze
  - pylint sample.py --disable=missing-docstring # Coding style check
 
-script: python test_sample.py # run unit test
+# Run unit test
+script: python test_sample.py 
 
+# Build docker image for release artifact
 after_success:
- - docker pull python:$docker_image
+ - docker pull python:$docker_image # pull python docker image from officail
  - docker images
- - envsubst < Dockerfile.template > Dockerfile
- - docker build -t my_python:$docker_image .  
+ - envsubst < Dockerfile.template > Dockerfile # replace python version tag in Dockerfile
+ - docker build -t my_python:$docker_image . # artifact soure code
  - docker images  
+ #- docker push my_python:$docker_image # Push or deploy to somewhere
+
 
