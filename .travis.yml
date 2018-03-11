@@ -2,11 +2,11 @@ sudo: required
 
 language: python
 
-branches:
+branches: #choose which barnch to build
   only:
     - master
 
-matrix:
+matrix: #parrellel 
   include:
     - python: 2.7
       env: docker_image=2.7.14-alpine3.7
@@ -31,6 +31,6 @@ script: python test_sample.py #[跑unit test]
 after_success:
  - docker pull python:$docker_image
  - docker images
- - envsubst < Dockerfile > Dockerfile
+ - envsubst < Dockerfile.template > Dockerfile
  - docker build -t my_python:$docker_image .    
 
