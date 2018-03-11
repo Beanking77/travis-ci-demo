@@ -31,4 +31,6 @@ script: python test_sample.py #[跑unit test]
 after_success:
  - docker pull python:$docker_image
  - docker images
+ - envsubst < Dockerfile
+ - docker build -t my_python:$docker_image .
 
