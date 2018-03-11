@@ -8,4 +8,5 @@ install:
  - pip install pylint #檢查 Coding style
 before_script:
  - pyflakes .
+ - pylint .
 script: python test_sample.py
