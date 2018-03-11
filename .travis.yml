@@ -29,5 +29,5 @@ before_script:
 script: python test_sample.py #[跑unit test]
 
 after_success:
- - echo $docker_image
+ - echo "$docker_image" "123"
 
