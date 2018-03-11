@@ -1,4 +1,11 @@
 language: python
 python:
  - "2.7"
+ - "3.7-dev"  # 3.7 development branch
+install:
+ - pip install --upgrade pip #[他預先的 pip 版本不是最新的，所以先更新一下]
+ - pip install pyflakes #檢查多餘的 import
+ - pip install pylint #檢查 Coding style
+before_script:
+ - pyflakes .
 script: python test_sample.py
