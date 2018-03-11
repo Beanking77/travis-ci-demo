@@ -8,4 +8,4 @@ RUN mkdir -p /build/
 ## Add script file 
 COPY sample.py /build/
 
-COMMAD bash
+COMMAND bash
