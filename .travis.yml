@@ -2,35 +2,36 @@ sudo: required
 
 language: python
 
-branches: #choose which barnch to build
+branches: # choose which barnch to build
   only:
     - master
 
-matrix: #parrellel 
+matrix: # parallel verify different python version 
   include:
     - python: 2.7
       env: docker_image=2.7.14-alpine3.7
 
-    - python: 3.7-dev # 3.7 development branch
+    - python: 3.7-dev
       env: docker_image=3.7-rc-alpine
 
-services:
+services: # use docker for artifact
   - docker
 
 install:
- - pip install --upgrade pip #[他預先的 pip 版本不是最新的，所以先更新一下]
- - pip install pyflakes #檢查多餘的 import
- - pip install pylint #檢查 Coding style
+ - pip install --upgrade pip # update pip version if not latest
+ - pip install pyflakes 
+ - pip install pylint 
 
 before_script:
- - pyflakes .
- - pylint sample.py --disable=missing-docstring
+ - pyflakes . # static code analyze
+ - pylint sample.py --disable=missing-docstring # Coding style check
 
-script: python test_sample.py #[跑unit test]
+script: python test_sample.py # run unit test
 
 after_success:
  - docker pull python:$docker_image
  - docker images
  - envsubst < Dockerfile.template > Dockerfile
- - docker build -t my_python:$docker_image .    
+ - docker build -t my_python:$docker_image .  
+ - docker images  
 
